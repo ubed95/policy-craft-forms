@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Base colors - Professional insurance platform theme */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primary - Trust & professionalism (deep blue) */
+    --primary: 215 85% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 85% 60%;
+    --primary-dark: 215 85% 35%;
+
+    /* Secondary - Subtle accents */
+    --secondary: 210 15% 93%;
+    --secondary-foreground: 215 25% 25%;
+
+    /* Muted - Form backgrounds */
+    --muted: 210 15% 96%;
+    --muted-foreground: 215 15% 45%;
+
+    /* Accent - Highlights */
+    --accent: 200 95% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    /* States */
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Form elements */
+    --border: 215 20% 88%;
+    --input: 0 0% 100%;
+    --input-border: 215 20% 82%;
+    --ring: 215 85% 45%;
+
+    --radius: 0.5rem;
+    
+    /* Form-specific */
+    --form-section-bg: 0 0% 100%;
+    --form-label: 215 25% 25%;
+    --form-help-text: 215 15% 50%;
+    --form-error: 0 85% 55%;
+    --form-focus-ring: 215 85% 45%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    
+    /* Transitions */
+    --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 100ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 25% 10%;
+    --foreground: 210 20% 95%;
+
+    --card: 215 25% 12%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 215 25% 12%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 215 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 85% 65%;
+    --primary-dark: 215 85% 45%;
+
+    --secondary: 215 20% 18%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 215 20% 18%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 200 95% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 42%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 215 20% 22%;
+    --input: 215 25% 15%;
+    --input-border: 215 20% 28%;
+    --ring: 215 85% 55%;
+    
+    --form-section-bg: 215 25% 12%;
+    --form-label: 210 20% 90%;
+    --form-help-text: 215 15% 60%;
+    --form-error: 0 85% 60%;
+    --form-focus-ring: 215 85% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
