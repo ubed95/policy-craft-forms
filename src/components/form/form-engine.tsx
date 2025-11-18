@@ -26,7 +26,7 @@ export const FormEngine: React.FC<FormEngineProps> = ({
   formConfig,
   onSubmit,
   initialValues = {},
-  mode = "create",
+  onReset,
   className,
   transactionCode = "ISSU",
   calcStep = "NBQUOTE",
@@ -65,10 +65,14 @@ export const FormEngine: React.FC<FormEngineProps> = ({
     resetForm();
     setSubmitAttempted(false);
     setSubmitSuccess(false);
+    
+    // Call custom reset callback if provided
+    if (onReset) {
+      onReset(formState);
+    }
   };
 
   const errorCount = Object.keys(formState.errors).length;
-  const isViewMode = mode === "view";
 
   return (
     <div className={cn("w-full max-w-7xl mx-auto", className)}>
@@ -121,28 +125,26 @@ export const FormEngine: React.FC<FormEngineProps> = ({
         ))}
 
         {/* Form Actions */}
-        {!isViewMode && (
-          <Card className="bg-muted">
-            <CardContent className="pt-6">
-              <div className="flex gap-4 justify-end">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleReset}
-                  className="min-w-32"
-                >
-                  Reset
-                </Button>
-                <Button
-                  type="submit"
-                  className="min-w-32 bg-primary hover:bg-primary-dark"
-                >
-                  {mode === "edit" ? "Update" : "Submit"}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        <Card className="bg-muted">
+          <CardContent className="pt-6">
+            <div className="flex gap-4 justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleReset}
+                className="min-w-32"
+              >
+                Reset
+              </Button>
+              <Button
+                type="submit"
+                className="min-w-32 bg-primary hover:bg-primary-dark"
+              >
+                Submit
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </form>
     </div>
   );
