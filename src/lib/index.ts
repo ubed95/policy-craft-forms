@@ -3,6 +3,9 @@
  * Main library exports for dynamic form rendering
  */
 
+// Import Styles
+import '../index.css';
+
 // Main component export
 export { FormEngine } from './FormEngine';
 

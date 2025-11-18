@@ -12,9 +12,9 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      insertTypesEntry: true,
-      include: ['src/lib/**/*', 'src/types/**/*', 'src/components/**/*', 'src/hooks/**/*', 'src/services/**/*', 'src/utils/**/*'],
-      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'node_modules/**'],
+      tsconfigPath: './tsconfig.build.json',
+      rollupTypes: true,
+      copyDtsFiles: false,
     })
   ],
   resolve: {
