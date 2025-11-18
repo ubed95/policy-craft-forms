@@ -361,6 +361,9 @@ export interface FormEngineProps {
   /** Callback fired when form is submitted with valid data */
   onSubmit: (formState: FormState) => void;
   
+  /** Optional callback fired when form validation fails on submit */
+  onValidationError?: (errors: Record<string, string[]>) => void;
+  
   /** Optional callback fired when field value changes */
   onValueChange?: (fieldName: string, value: string, formState: FormState) => void;
   

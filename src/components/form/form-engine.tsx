@@ -15,16 +15,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Alert,
-  AlertDescription,
-} from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/utils";
 
 export const FormEngine: React.FC<FormEngineProps> = ({
   formConfig,
   onSubmit,
+  onValidationError,
   initialValues = {},
   onReset,
   className,
@@ -45,34 +41,27 @@ export const FormEngine: React.FC<FormEngineProps> = ({
     calcStep,
   });
 
-  const [submitAttempted, setSubmitAttempted] = React.useState(false);
-  const [submitSuccess, setSubmitSuccess] = React.useState(false);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitAttempted(true);
-    setSubmitSuccess(false);
 
     const isValid = validateForm();
 
     if (isValid) {
       onSubmit(formState);
-      setSubmitSuccess(true);
+    } else {
+      // Call validation error callback if provided
+      onValidationError?.(formState.errors);
     }
   };
 
   const handleReset = () => {
     resetForm();
-    setSubmitAttempted(false);
-    setSubmitSuccess(false);
     
     // Call custom reset callback if provided
     if (onReset) {
       onReset(formState);
     }
   };
-
-  const errorCount = Object.keys(formState.errors).length;
 
   return (
     <div className={cn("w-full max-w-7xl mx-auto", className)}>
@@ -88,31 +77,6 @@ export const FormEngine: React.FC<FormEngineProps> = ({
       </Card>
 
       <form onSubmit={handleSubmit} className="space-y-6 mt-6">
-        {/* Validation Error Summary */}
-        {submitAttempted && errorCount > 0 && (
-          <Alert variant="destructive" className="border-destructive">
-            <AlertCircle className="h-5 w-5" />
-            <AlertDescription className="ml-2">
-              <strong>Please correct the following errors:</strong>
-              <ul className="mt-2 list-disc list-inside">
-                {Object.entries(formState.errors).map(([field, errors]) => (
-                  <li key={field}>{errors.join(", ")}</li>
-                ))}
-              </ul>
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {/* Success Message */}
-        {submitSuccess && (
-          <Alert className="border-success bg-success/10">
-            <CheckCircle2 className="h-5 w-5 text-success" />
-            <AlertDescription className="ml-2 text-success-foreground">
-              Form submitted successfully!
-            </AlertDescription>
-          </Alert>
-        )}
-
         {/* Form Sections */}
         {sections.map((section) => (
           <FormSectionComponent
