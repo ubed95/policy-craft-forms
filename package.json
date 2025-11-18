@@ -1,14 +1,52 @@
 {
-  "name": "vite_react_shadcn_ts",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@kiwiinsurance/dynamic-form-engine",
+  "version": "1.0.0",
+  "description": "Production-grade dynamic form rendering engine with dependency resolution and validation",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react",
+    "form",
+    "dynamic-forms",
+    "form-engine",
+    "form-builder",
+    "validation",
+    "dependency-resolution",
+    "insurance-forms",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kiwi-insurance/dynamic-form-builder"
+  },
+  "author": "Nvest",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "build:watch": "vite build --watch",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",
@@ -18,10 +56,7 @@
     "clsx": "^2.1.1",
     "expr-eval": "^2.0.2",
     "lucide-react": "^0.462.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.6.0",
-    "vite-plugin-dts": "^4.5.4"
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
@@ -39,6 +74,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

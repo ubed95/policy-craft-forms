@@ -1,4 +1,4 @@
-# @nvest/form-engine
+# @kiwiinsurance/dynamic-form-engine
 
 Production-grade dynamic form rendering engine for React with built-in dependency resolution, validation, and state management.
 
@@ -16,19 +16,19 @@ Production-grade dynamic form rendering engine for React with built-in dependenc
 ## Installation
 
 ```bash
-npm install @nvest/form-engine
+npm install @kiwiinsurance/dynamic-form-engine
 # or
-yarn add @nvest/form-engine
+yarn add @kiwiinsurance/dynamic-form-engine
 # or
-pnpm add @nvest/form-engine
+pnpm add @kiwiinsurance/dynamic-form-engine
 ```
 
 ## Basic Usage
 
 ```tsx
-import { FormEngine } from '@nvest/form-engine';
-import type { ProductResponse, FormState } from '@nvest/form-engine';
-import '@nvest/form-engine/dist/style.css';
+import { FormEngine } from '@kiwiinsurance/dynamic-form-engine';
+import type { ProductResponse, FormState } from '@kiwiinsurance/dynamic-form-engine';
+import '@kiwiinsurance/dynamic-form-engine/dist/style.css';
 
 function App() {
   // Fetch this from your API
@@ -279,7 +279,7 @@ import type {
   // Other types
   FormSection,
   FormConfig,
-} from '@nvest/form-engine';
+} from '@kiwiinsurance/dynamic-form-engine';
 ```
 
 ## Examples
@@ -288,9 +288,9 @@ import type {
 
 ```tsx
 import { useState, useEffect } from 'react';
-import { FormEngine } from '@nvest/form-engine';
-import type { ProductResponse, FormState } from '@nvest/form-engine';
-import '@nvest/form-engine/dist/style.css';
+import { FormEngine } from '@kiwiinsurance/dynamic-form-engine';
+import type { ProductResponse, FormState } from '@kiwiinsurance/dynamic-form-engine';
+import '@kiwiinsurance/dynamic-form-engine/dist/style.css';
 
 function InsuranceQuoteForm() {
   const [formConfig, setFormConfig] = useState<ProductResponse | null>(null);
@@ -369,7 +369,7 @@ export default InsuranceQuoteForm;
 The library uses Tailwind CSS for styling. Import the CSS file in your application:
 
 ```tsx
-import '@nvest/form-engine/dist/style.css';
+import '@kiwiinsurance/dynamic-form-engine/dist/style.css';
 ```
 
 You can customize the theme by overriding CSS variables in your own stylesheet:
