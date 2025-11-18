@@ -41,6 +41,11 @@ function App() {
     // Process form data - send to backend, etc.
   };
 
+  const handleValidationError = (errors: Record<string, string[]>) => {
+    console.error('Form validation failed:', errors);
+    // Display errors in your UI (toast, modal, inline, etc.)
+  };
+
   const handleReset = (formState: FormState) => {
     console.log('Form reset with state:', formState);
     // Optional: Custom cleanup logic
@@ -50,6 +55,7 @@ function App() {
     <FormEngine
       formConfig={formConfig}
       onSubmit={handleSubmit}
+      onValidationError={handleValidationError}
       onReset={handleReset}
       initialValues={{ SAMEPROPOSER: 'Y' }}
       transactionCode="ISSU"
@@ -88,6 +94,7 @@ interface ProductResponse {
 |------|------|----------|---------|-------------|
 | `formConfig` | `ProductResponse` | ✅ | - | Complete form configuration from API |
 | `onSubmit` | `(formState: FormState) => void` | ✅ | - | Callback fired when form is submitted with valid data |
+| `onValidationError` | `(errors: Record<string, string[]>) => void` | ❌ | - | Optional callback fired when form validation fails on submit |
 | `onReset` | `(formState: FormState) => void` | ❌ | - | Optional callback fired when reset button is clicked |
 | `initialValues` | `Record<string, string>` | ❌ | `{}` | Initial values for form fields |
 | `className` | `string` | ❌ | - | CSS class name for root element |
