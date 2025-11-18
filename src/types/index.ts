@@ -355,13 +355,28 @@ export interface LookupResult {
 // ============= Form Engine Props =============
 
 export interface FormEngineProps {
+  /** Form configuration from API response */
   formConfig: ProductResponse;
+  
+  /** Callback fired when form is submitted with valid data */
   onSubmit: (formState: FormState) => void;
+  
+  /** Optional callback fired when field value changes */
   onValueChange?: (fieldName: string, value: string, formState: FormState) => void;
+  
+  /** Optional callback fired when reset button is clicked */
+  onReset?: (formState: FormState) => void;
+  
+  /** Optional initial values for form fields */
   initialValues?: Record<string, string>;
-  mode?: "create" | "edit" | "view";
+  
+  /** Optional CSS class name for root element */
   className?: string;
+  
+  /** Transaction code for form context (default: 'ISSU') */
   transactionCode?: string;
+  
+  /** Calculation step for form context (default: 'NBQUOTE') */
   calcStep?: string;
 }
 
