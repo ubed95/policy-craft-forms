@@ -5,6 +5,10 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: "::",
+    port: 8080,
+  },
   plugins: [
     react(),
     dts({
@@ -37,12 +41,6 @@ export default defineConfig({
       },
     },
     sourcemap: true,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: false,
-        drop_debugger: true,
-      },
-    },
+    minify: 'esbuild',
   },
 });
