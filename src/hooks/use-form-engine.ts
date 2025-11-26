@@ -23,6 +23,7 @@ export interface UseFormEngineOptions {
   initialValues?: Record<string, string>;
   transactionCode?: string;
   calcStep?: string;
+  fieldKeywords?: string[];
   onValueChange?: (
     fieldName: string,
     value: string,
@@ -36,15 +37,24 @@ export function useFormEngine(options: UseFormEngineOptions) {
     initialValues = {},
     transactionCode = "ISSU",
     calcStep = "NBQUOTE",
+    fieldKeywords,
     onValueChange,
   } = options;
 
-  // Filter fields by transaction code and calc step, and attach options
+  // Filter fields by transaction code, calc step, and optional fieldKeywords
   const fields = useMemo(() => {
-    const filteredFields = formConfig.productkeyword.filter(
+    let filteredFields = formConfig.productkeyword.filter(
       (field) =>
         field.transactioncode === transactionCode && field.calcstep === calcStep
     );
+
+    // Apply fieldKeywords filter if provided (partial rendering mode)
+    if (fieldKeywords && fieldKeywords.length > 0) {
+      const keywordSet = new Set(fieldKeywords);
+      filteredFields = filteredFields.filter((field) =>
+        keywordSet.has(field.keyword)
+      );
+    }
 
     // Group keyword values by keyword for fast lookup
     const valuesByKeyword = new Map<string, ProductKeywordValue[]>();
@@ -76,16 +86,37 @@ export function useFormEngine(options: UseFormEngineOptions) {
     formConfig.productkeywordvalue,
     transactionCode,
     calcStep,
+    fieldKeywords,
   ]);
 
-  // Initialize dependency resolver
+  // Initialize dependency resolver with filtered dependencies
   const dependencyResolver = useMemo(() => {
-    const fieldDeps = formConfig.productkeyworddependency || [];
-    const valueDeps = formConfig.productkeyworddependencyvalue || [];
+    let fieldDeps = formConfig.productkeyworddependency || [];
+    let valueDeps = formConfig.productkeyworddependencyvalue || [];
+
+    // Filter dependencies if fieldKeywords is provided
+    if (fieldKeywords && fieldKeywords.length > 0) {
+      const keywordSet = new Set(fieldKeywords);
+      
+      // Only include field dependencies where actionedkeyword is in the selected fields
+      // Also include dependencies where changedkeyword affects our selected fields
+      fieldDeps = fieldDeps.filter(
+        (dep) =>
+          keywordSet.has(dep.actionedkeyword) || keywordSet.has(dep.changedkeyword)
+      );
+
+      // Only include value dependencies where both keywords are relevant
+      valueDeps = valueDeps.filter(
+        (dep) =>
+          keywordSet.has(dep.actionedkeyword) || keywordSet.has(dep.changedkeyword)
+      );
+    }
+
     return new DependencyResolver(fieldDeps, valueDeps);
   }, [
     formConfig.productkeyworddependency,
     formConfig.productkeyworddependencyvalue,
+    fieldKeywords,
   ]);
 
   // Initialize data source resolver
@@ -181,12 +212,16 @@ export function useFormEngine(options: UseFormEngineOptions) {
     return initialState;
   });
 
-  // Group fields into sections
+  // Group fields into sections (skip grouping in partial mode)
   const sections = useMemo(() => {
+    // In partial mode (fieldKeywords provided), skip section grouping
+    const isPartialMode = fieldKeywords && fieldKeywords.length > 0;
+
     const sectionMap = new Map<string, FormSection>();
 
     fields.forEach((field) => {
-      const sectionName = field.keywordsection || "DEFAULT";
+      // Use a single default section for partial mode
+      const sectionName = isPartialMode ? "FIELDS" : (field.keywordsection || "DEFAULT");
 
       if (!sectionMap.has(sectionName)) {
         sectionMap.set(sectionName, {
@@ -279,6 +314,7 @@ export function useFormEngine(options: UseFormEngineOptions) {
     formState,
     dataSourceResolver,
     formConfig.productkeyworddependencyvalue,
+    fieldKeywords,
   ]);
 
   // Handle field value change
@@ -411,6 +447,7 @@ export function useFormEngine(options: UseFormEngineOptions) {
     setFieldValue,
     dependencyResolver,
     validator,
+    isPartialMode: !!(fieldKeywords && fieldKeywords.length > 0),
   };
 }
 
