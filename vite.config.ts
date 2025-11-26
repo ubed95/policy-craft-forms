@@ -4,25 +4,29 @@ import path from "path";
 import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
   },
   plugins: [
     react(),
-    dts({
-      tsconfigPath: './tsconfig.build.json',
-      rollupTypes: true,
-      copyDtsFiles: false,
-    })
+    // Only generate type declarations in library build mode
+    ...(mode === 'production' ? [
+      dts({
+        tsconfigPath: './tsconfig.build.json',
+        rollupTypes: true,
+        copyDtsFiles: false,
+      })
+    ] : []),
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
+  build: mode === 'production' ? {
+    // Library build configuration (for npm package distribution)
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),
       name: 'NvestFormEngine',
@@ -42,5 +46,9 @@ export default defineConfig({
     },
     sourcemap: true,
     minify: 'esbuild',
+  } : {
+    // Development app build configuration (for Lovable preview)
+    outDir: 'dist-dev',
+    sourcemap: true,
   },
-});
+}));
