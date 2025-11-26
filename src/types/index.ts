@@ -381,6 +381,9 @@ export interface FormEngineProps {
   
   /** Calculation step for form context (default: 'NBQUOTE') */
   calcStep?: string;
+  
+  /** Optional list of field keywords to render (partial rendering mode) */
+  fieldKeywords?: string[];
 }
 
 // ============= Error Types =============
