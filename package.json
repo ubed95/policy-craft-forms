@@ -38,6 +38,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
+    "build:dev": "vite build --mode development",
     "build": "vite build",
     "build:watch": "vite build --watch",
     "lint": "eslint .",
