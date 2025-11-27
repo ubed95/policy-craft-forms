@@ -45,7 +45,8 @@ export function useFormEngine(options: UseFormEngineOptions) {
   const fields = useMemo(() => {
     let filteredFields = formConfig.productkeyword.filter(
       (field) =>
-        field.transactioncode === transactionCode && field.calcstep === calcStep
+        (field.transactioncode === null || field.transactioncode === transactionCode) && 
+        (field.calcstep === null || field.calcstep === calcStep)
     );
 
     // Apply fieldKeywords filter if provided (partial rendering mode)
