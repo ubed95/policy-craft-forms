@@ -87,11 +87,11 @@ export interface ProductKeyword {
   keywordcaption: string;
   keywordtype: FieldType;
   keyworddatatype: string;
-  keywordsection: string;
+  keywordsection: string | null;
   defaultvalue: string | null;
   ismandatory: boolean;
-  inputoroutput: InputOutputType;
-  defaultuibehavior: UIBehavior;
+  inputoroutput: InputOutputType | null;
+  defaultuibehavior: UIBehavior | null;
   keyminvalue: number | null;
   keymaxvalue: number | null;
   minlength: number | null;
@@ -103,10 +103,10 @@ export interface ProductKeyword {
   parentkeyword: string | null;
   lob: string;
   sublob: string;
-  productid: number;
+  productid: number | null;
   riderid: number | null;
-  transactioncode: string;
-  calcstep: string;
+  transactioncode: string | null;
+  calcstep: string | null;
   metadata?: string | null;
   chkfieldsource?: boolean;
   regcode?: string;
