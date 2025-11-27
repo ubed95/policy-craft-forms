@@ -1,15 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormEngine } from '@/lib/FormEngine';
 import type { ProductResponse, FormState } from '@/types';
-import { sampleApiResponse } from '@/data/sampleApiResponse';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 
 export const DemoForm: React.FC = () => {
-  const [formConfig] = useState<ProductResponse>(sampleApiResponse);
-  const [isLoading, setIsLoading] = useState(false);
+  const [formConfig, setFormConfig] = useState<ProductResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchFormConfig = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        const response = await fetch('https://devlin.nvest.in/ProductConfig/api/GetProductInitialData', {
+          method: 'POST',
+          headers: {
+            'RegCode': 'KIWI',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productid: "35001",
+            riderid: null,
+            companycode: 'KIWI',
+            filterdataquery: '',
+            param: {},
+            inforequired: {},
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // The API wraps the response in a 'response' property
+        const productData = data.response || data;
+        
+        console.log('Fetched form config:', productData);
+        setFormConfig(productData);
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch form configuration';
+        console.error('Error fetching form config:', err);
+        setError(errorMessage);
+        toast({
+          title: "Error Loading Form",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFormConfig();
+  }, [toast]);
 
   const handleSubmit = (formState: FormState) => {
     setIsLoading(true);
@@ -49,20 +98,47 @@ export const DemoForm: React.FC = () => {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading form configuration...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error || !formConfig) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-destructive">Error Loading Form</CardTitle>
+            <CardDescription>{error || 'No form configuration available'}</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Development Demo</CardTitle>
+          <CardTitle>API-Powered Form Demo</CardTitle>
           <CardDescription>
-            Testing the FormEngine component with sample data. This demo shows how to integrate 
-            the form engine into your application.
+            Dynamic form loaded from ProductConfig API endpoint. Testing FormEngine with live data.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <div>
-              <strong>Product:</strong> {formConfig.productmaster.productname}
+              <strong>Product:</strong> {String(formConfig.productmaster.productname)}
             </div>
             <div>
               <strong>LOB:</strong> {formConfig.productmaster.lob}
@@ -79,11 +155,7 @@ export const DemoForm: React.FC = () => {
         onSubmit={handleSubmit}
         onValidationError={handleValidationError}
         onReset={handleReset}
-        initialValues={{
-          SAMEPROPOSER: 'Y',
-          SUMASSURED: '500000',
-          POLICYTERM: '20',
-        }}
+        initialValues={{}}
         transactionCode="ISSU"
         calcStep="NBQUOTE"
       />
