@@ -18,10 +18,10 @@ export interface ProductResponse {
   riders: Rider[];
   productversion: ProductVersion[];
   productkeyword: ProductKeyword[];
-  productkeywordvalue: ProductKeywordValue[];
-  productkeyworddatasource: Record<string, Record<string, string>[]>;
-  productkeyworddependency: ProductKeywordDependency[];
-  productkeyworddependencyvalue: ProductKeywordDependencyValue[];
+  productkeywordvalue?: ProductKeywordValue[];
+  productkeyworddatasource?: Record<string, Record<string, string>[]>;
+  productkeyworddependency?: ProductKeywordDependency[];
+  productkeyworddependencyvalue?: ProductKeywordDependencyValue[];
 }
 
 export interface ProductMaster {
